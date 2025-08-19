@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:async';
+import 'package:gamesradar/models/platform.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gamesradar/models/platform.dart';
+// import 'package:gamesradar/models/platform.dart' hide Platform;
 import 'package:gamesradar/models/game.dart';
 
 class GamesService {
@@ -11,14 +12,14 @@ class GamesService {
   static const int _cacheDurationMinutes = 30;
 
   // Memory cache for platforms
-  List<Platform>? _cachedPlatforms;
+  List<PlatformModel>? _cachedPlatforms;
   DateTime? _platformsCacheTime;
 
   // Memory cache for games
   final Map<String, List<Game>> _cachedGames = {};
   final Map<String, DateTime> _gamesCacheTime = {};
 
-  Future<List<Platform>> getPlatforms({bool forceRefresh = false}) async {
+  Future<List<PlatformModel>> getPlatforms({bool forceRefresh = false}) async {
     // Return cached data if still valid
     if (!forceRefresh &&
         _cachedPlatforms != null &&
@@ -36,7 +37,7 @@ class GamesService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final platforms = (data['results'] as List)
-            .map((json) => Platform.fromJson(json))
+            .map((json) => PlatformModel.fromJson(json))
             .toList();
 
         // Update cache

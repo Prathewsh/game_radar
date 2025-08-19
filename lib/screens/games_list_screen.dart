@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamesradar/screens/game_detail_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:gamesradar/models/game.dart';
 import 'package:gamesradar/services/games_service.dart';
@@ -111,7 +112,18 @@ class _GamesListScreenState extends State<GamesListScreen> {
             itemCount: _games.length + (_hasMore ? 1 : 0),
             itemBuilder: (context, index) {
               if (index < _games.length) {
-                return GameCard(game: _games[index]);
+                final current = _games[index];
+                return GameCard(
+                  game: current,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GameDetailScreen(game: current),
+                      ),
+                    );
+                  },
+                );
               } else {
                 return const Padding(
                   padding: EdgeInsets.all(16.0),

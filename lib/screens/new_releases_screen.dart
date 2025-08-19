@@ -19,7 +19,7 @@ class NewReleasesScreen extends StatefulWidget {
 class _NewReleasesScreenState extends State<NewReleasesScreen> {
   final RefreshController _refreshController = RefreshController();
   final List<Game> _games = [];
-  final List<Platform> _platforms = [];
+  final List<PlatformModel> _platforms = [];
   String? _selectedPlatform;
   int _page = 1;
   bool _isLoading = false;

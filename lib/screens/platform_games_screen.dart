@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; // Add this import
 
 class PlatformGamesScreen extends StatefulWidget {
-  final Platform platform;
+  final PlatformModel platform;
   const PlatformGamesScreen({super.key, required this.platform});
 
   @override
