@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gamesradar/models/platform.dart';
+import 'package:gamesradar/models/game.dart';
 
 class PlatformChip extends StatelessWidget {
-  final Platform platform;
+  final PlatformModel platform;
   final bool isSelected;
   final VoidCallback onTap;
 

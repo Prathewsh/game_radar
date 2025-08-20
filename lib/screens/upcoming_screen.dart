@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:gamesradar/models/game.dart';
-import 'package:gamesradar/models/platform.dart';
 import 'package:gamesradar/services/games_service.dart';
 import 'package:gamesradar/widgets/game_card.dart';
 import 'package:gamesradar/widgets/platform_chip.dart';
@@ -19,7 +18,7 @@ class UpcomingScreen extends StatefulWidget {
 class _UpcomingScreenState extends State<UpcomingScreen> {
   final RefreshController _refreshController = RefreshController();
   final List<Game> _games = [];
-  final List<Platform> _platforms = [];
+  final List<PlatformModel> _platforms = [];
   String? _selectedPlatform;
   int _page = 1;
   bool _isLoading = false;

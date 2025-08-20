@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamesradar/models/game.dart';
 import 'package:gamesradar/screens/games_list_screen.dart';
 import 'package:gamesradar/screens/search_screen.dart';
 import 'package:gamesradar/screens/platform_games_screen.dart'; // Add this import
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Platform> _platforms = [];
+  List<PlatformModel> _platforms = [];
   bool _isLoadingPlatforms = true;
 
   @override
@@ -85,72 +86,84 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildDrawer() {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.deepOrange),
-            child: Text(
-              'GamesRadar',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // const DrawerHeader(
+            //   decoration: BoxDecoration(color: Colors.deepOrange),
+            //   child: Text(
+            //     'GamesRadar',
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //       fontSize: 24,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
+            Image.asset(
+              'assets/logo.png',
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.maxFinite,
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() => _currentIndex = 0);
+              },
+            ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+              child: Text(
+                'RELEASES',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.pop(context);
-              setState(() => _currentIndex = 0);
-            },
-          ),
-          const Divider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-            child: Text(
-              'RELEASES',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-            ),
-          ),
-          _isLoadingPlatforms
-              ? const Center(child: CircularProgressIndicator())
-              : Column(
-                  children: _platforms
-                      .take(10)
-                      .map(
-                        (platform) => ListTile(
-                          leading: const Icon(Icons.videogame_asset),
-                          title: Text(platform.name),
-                          onTap: () {
-                            Navigator.pop(context); // Close drawer
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    PlatformGamesScreen(platform: platform),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                      .toList(),
-                ),
-          // const Divider(),
-          // ListTile(
-          //   leading: const Icon(Icons.settings),
-          //   title: const Text('Settings'),
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => const SettingsScreen()),
-          //     );
-          //   },
-          // ),
-        ],
+            _isLoadingPlatforms
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                    children: _platforms
+                        .take(10)
+                        .map(
+                          (platform) => ListTile(
+                            leading: const Icon(Icons.videogame_asset),
+                            title: Text(platform.name),
+                            onTap: () {
+                              Navigator.pop(context); // Close drawer
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      PlatformGamesScreen(platform: platform),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+            // const Divider(),
+            // ListTile(
+            //   leading: const Icon(Icons.settings),
+            //   title: const Text('Settings'),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => const SettingsScreen()),
+            //     );
+            //   },
+            // ),
+          ],
+        ),
       ),
     );
   }
