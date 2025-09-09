@@ -63,6 +63,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
+    - assets/
     - assets/bmc_logo.svg
     - assets/logo.png
     - .env

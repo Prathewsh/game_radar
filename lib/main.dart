@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:gamesradar/screens/home_screen.dart';
+import 'package:gamesradar/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:gamesradar/services/games_service.dart';
 
@@ -71,7 +71,9 @@ class GamesRadarApp extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
         ),
       ),
-      home: const HomeScreen(),
+
+      // home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
