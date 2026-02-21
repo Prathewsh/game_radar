@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:gamesradar/screens/home_screen.dart';
+import 'package:gamesradar/screens/bottom_nav_screen.dart';
+import 'package:gamesradar/static/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => const BottomNavScreen()),
         );
       }
     });
@@ -26,20 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgColor,
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFA9BEC3), // a9bec3
-              Color(0xFFE2F5F3), // e2f5f3
-              Color(0xFF84DCC4), // 84dcc4
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        decoration: const BoxDecoration(color: bgColor),
         child: Center(
           child: Image.asset(
             'assets/gr_logo.webp',

@@ -5,14 +5,16 @@ import 'package:gamesradar/models/game.dart';
 import 'package:gamesradar/services/games_service.dart';
 import 'package:gamesradar/widgets/game_card.dart';
 import 'package:gamesradar/widgets/loading_shimmer.dart';
+import 'package:gamesradar/widgets/app_error_widget.dart';
+import 'package:gamesradar/widgets/app_empty_widget.dart';
 
 class GamesListScreen extends StatefulWidget {
-  final String title;
   final bool showUpcoming;
+  final String searchQuery;
   const GamesListScreen({
     super.key,
-    required this.title,
     required this.showUpcoming,
+    this.searchQuery = '',
   });
 
   @override
@@ -84,54 +86,67 @@ class _GamesListScreenState extends State<GamesListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(
+        title: Text(widget.showUpcoming ? 'Upcoming Games' : 'New Releases'),
+      ),
       body: _buildBody(),
     );
   }
 
   Widget _buildBody() {
-    if (_hasError && _games.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Failed to load games'),
-            ElevatedButton(
-              onPressed: () => _loadGames(isRefresh: true),
-              child: const Text('Retry'),
-            ),
-          ],
-        ),
+    final filteredGames = widget.searchQuery.isEmpty
+        ? _games
+        : _games
+              .where(
+                (game) => game.name.toLowerCase().contains(
+                  widget.searchQuery.toLowerCase(),
+                ),
+              )
+              .toList();
+
+    if (_hasError && filteredGames.isEmpty) {
+      return AppErrorWidget(onRetry: () => _loadGames(isRefresh: true));
+    }
+
+    if (filteredGames.isEmpty && _isLoading) {
+      return const LoadingShimmer();
+    }
+
+    if (filteredGames.isEmpty && !_isLoading && !_hasError) {
+      return AppEmptyWidget(
+        subtitle: widget.searchQuery.isNotEmpty
+            ? 'No results for your search.'
+            : 'No games available at the moment.',
       );
     }
 
-    return _games.isEmpty && _isLoading
-        ? const LoadingShimmer()
-        : ListView.builder(
-            controller: _scrollController,
-            itemCount: _games.length + (_hasMore ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index < _games.length) {
-                final current = _games[index];
-                return GameCard(
-                  game: current,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GameDetailScreen(game: current),
-                      ),
-                    );
-                  },
-                );
-              } else {
-                return const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount:
+          filteredGames.length +
+          (_hasMore && widget.searchQuery.isEmpty ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index < filteredGames.length) {
+          final current = filteredGames[index];
+          return GameCard(
+            game: current,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GameDetailScreen(game: current),
+                ),
+              );
             },
           );
+        } else {
+          return const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+      },
+    );
   }
 
   @override
