@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gamesradar/models/game.dart';
 import 'package:gamesradar/widgets/platform_chip.dart';
+import 'package:gamesradar/static/colors.dart';
 
 class GameDetailScreen extends StatelessWidget {
   final Game game;
@@ -30,11 +31,11 @@ class GameDetailScreen extends StatelessWidget {
                 height: 200,
                 fit: BoxFit.cover,
                 placeholder: (context, url) =>
-                    Container(color: Colors.grey[200], height: 200),
+                    Container(color: bgColor, height: 200),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[200],
+                  color: bgColor,
                   height: 200,
-                  child: const Icon(Icons.error),
+                  child: const Icon(Icons.error, color: fgColor),
                 ),
               ),
             Padding(
@@ -49,13 +50,23 @@ class GameDetailScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      const Icon(Icons.calendar_today, size: 16),
+                      const Icon(
+                        Icons.calendar_today,
+                        size: 16,
+                        color: fgColor,
+                      ),
                       const SizedBox(width: 4),
-                      Text(game.releaseDate),
+                      Text(
+                        game.releaseDate,
+                        style: const TextStyle(color: fgColor),
+                      ),
                       const Spacer(),
                       const Icon(Icons.star, size: 16, color: Colors.amber),
                       const SizedBox(width: 4),
-                      Text(game.ratingString),
+                      Text(
+                        game.ratingString,
+                        style: const TextStyle(color: fgColor),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),

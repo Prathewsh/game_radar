@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamesradar/models/game.dart';
+import 'package:gamesradar/static/colors.dart';
 
 class PlatformChip extends StatelessWidget {
   final PlatformModel platform;
@@ -19,10 +20,15 @@ class PlatformChip extends StatelessWidget {
       label: Text(platform.name),
       selected: isSelected,
       onSelected: (_) => onTap(),
-      backgroundColor: Colors.grey[200],
-      selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
+      backgroundColor: bgColor,
+      selectedColor: fgColor.withOpacity(0.2),
+      checkmarkColor: fgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(color: fgColor.withOpacity(0.3)),
+      ),
       labelStyle: TextStyle(
-        color: isSelected ? Theme.of(context).primaryColor : Colors.grey[800],
+        color: isSelected ? fgColor : fgColor.withOpacity(0.7),
       ),
     );
   }

@@ -5,8 +5,11 @@ import 'package:gamesradar/models/game.dart';
 import 'package:gamesradar/models/platform.dart';
 import 'package:gamesradar/services/games_service.dart';
 import 'package:gamesradar/widgets/game_card.dart';
+import 'package:gamesradar/widgets/app_error_widget.dart';
+import 'package:gamesradar/widgets/app_empty_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart'; // Add this import
+import 'package:intl/intl.dart';
+import 'package:gamesradar/screens/game_detail_screen.dart';
 
 class PlatformGamesScreen extends StatefulWidget {
   final PlatformModel platform;
@@ -19,6 +22,7 @@ class PlatformGamesScreen extends StatefulWidget {
 class _PlatformGamesScreenState extends State<PlatformGamesScreen> {
   List<Game> _games = [];
   bool _isLoading = true;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -27,6 +31,11 @@ class _PlatformGamesScreenState extends State<PlatformGamesScreen> {
   }
 
   Future<void> _loadGames() async {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
     try {
       final gamesService = Provider.of<GamesService>(context, listen: false);
       final games = await gamesService.getNewReleases(
@@ -59,9 +68,13 @@ class _PlatformGamesScreenState extends State<PlatformGamesScreen> {
       setState(() {
         _games = games;
         _isLoading = false;
+        _hasError = false;
       });
     } catch (e) {
-      setState(() => _isLoading = false);
+      setState(() {
+        _isLoading = false;
+        _hasError = true;
+      });
     }
   }
 
@@ -71,12 +84,35 @@ class _PlatformGamesScreenState extends State<PlatformGamesScreen> {
       appBar: AppBar(title: Text(widget.platform.name)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _games.length,
-              itemBuilder: (context, index) {
-                return GameCard(game: _games[index]);
-              },
-            ),
+          : (_hasError
+                ? AppErrorWidget(
+                    message:
+                        'Failed to load games for ${widget.platform.name}.',
+                    onRetry: _loadGames,
+                  )
+                : (_games.isEmpty
+                      ? AppEmptyWidget(
+                          title: 'No games for this platform',
+                          subtitle:
+                              'We couldn\'t find any listed games for ${widget.platform.name}.',
+                        )
+                      : ListView.builder(
+                          itemCount: _games.length,
+                          itemBuilder: (context, index) {
+                            return GameCard(
+                              game: _games[index],
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        GameDetailScreen(game: _games[index]),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ))),
     );
   }
 }

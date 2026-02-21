@@ -20,7 +20,7 @@ class Game {
   final int id;
   final dynamic score;
   final dynamic clip;
-  final List<dynamic> tags;
+  final List<dynamic>? tags;
   final dynamic esrbRating;
   final dynamic userGame;
   final int reviewsCount;
@@ -55,7 +55,7 @@ class Game {
     required this.id,
     required this.score,
     required this.clip,
-    required this.tags,
+    this.tags,
     required this.esrbRating,
     required this.userGame,
     required this.reviewsCount,
@@ -104,7 +104,7 @@ class Game {
       id: json['id'] as int,
       score: json['score'],
       clip: json['clip'],
-      tags: json['tags'] as List<dynamic>,
+      tags: json['tags'] == null ? null : json['tags'] as List<dynamic>,
       esrbRating: json['esrb_rating'],
       userGame: json['user_game'],
       reviewsCount: json['reviews_count'] as int,

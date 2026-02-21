@@ -1,30 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gamesradar/screens/upcoming_screen.dart';
+import 'package:gamesradar/screens/new_releases_screen.dart';
 import 'package:gamesradar/static/colors.dart';
-import 'package:gamesradar/models/game.dart';
-import 'package:gamesradar/services/games_service.dart';
-import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class BottomNavScreen extends StatefulWidget {
+  const BottomNavScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<BottomNavScreen> createState() => _BottomNavScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _BottomNavScreenState extends State<BottomNavScreen> {
   int _currentIndex = 0;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<PlatformModel> _platforms = [];
-  bool _isLoadingPlatforms = true;
   bool _isSearching = false;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPlatforms();
-  }
 
   @override
   void dispose() {
@@ -32,23 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  Future<void> _loadPlatforms() async {
-    try {
-      final gamesService = Provider.of<GamesService>(context, listen: false);
-      final platforms = await gamesService.getPlatforms();
-      setState(() {
-        _platforms = platforms;
-        _isLoadingPlatforms = false;
-      });
-    } catch (e) {
-      setState(() => _isLoadingPlatforms = false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
       appBar: AppBar(
         title: _isSearching
             ? TextField(
@@ -67,11 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               )
-            : const Text('Game Radar'),
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: fgColor),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-        ),
+            : Text(_currentIndex == 0 ? 'Upcoming Games' : 'New Releases'),
         actions: [
           IconButton(
             icon: Icon(
@@ -89,6 +61,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               });
             },
+          ),
+        ],
+      ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          UpcomingScreen(searchQuery: _searchQuery),
+          NewReleasesScreen(searchQuery: _searchQuery),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+            // Clear search when switching tabs (optional, but usually better UX)
+            if (_isSearching) {
+              _isSearching = false;
+              _searchQuery = '';
+              _searchController.clear();
+            }
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.upcoming),
+            label: 'Upcoming',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.new_releases),
+            label: 'New Releases',
           ),
         ],
       ),

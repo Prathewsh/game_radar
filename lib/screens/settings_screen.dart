@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:gamesradar/static/colors.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,6 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           // === APP INFO CARD ===
           Card(
+            color: const Color.fromARGB(255, 45, 60, 65), // matching cardTheme
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -27,7 +29,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   const Text(
                     'About This App',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: fgColor,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   _buildInfoRow('App Version', '1.0.0'),
@@ -42,6 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // === BUY ME A COFFEE CARD ===
           Card(
+            color: const Color.fromARGB(255, 45, 60, 65),
             elevation: 4,
             child: InkWell(
               borderRadius: BorderRadius.circular(8),
@@ -76,17 +83,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             'Buy Me a Coffee',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
+                              color: fgColor,
                             ),
                           ),
                           Text(
                             'Support my work — every coffee fuels a new feature!',
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: fgColor.withOpacity(0.7),
+                            ),
                           ),
                         ],
                       ),
@@ -108,8 +119,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Colors.grey)),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w500)),
+          Text(label, style: TextStyle(color: fgColor.withOpacity(0.6))),
+          Text(
+            value,
+            style: const TextStyle(fontWeight: FontWeight.w500, color: fgColor),
+          ),
         ],
       ),
     );

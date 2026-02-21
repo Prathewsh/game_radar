@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamesradar/static/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:gamesradar/models/game.dart';
@@ -7,9 +8,12 @@ import 'package:gamesradar/widgets/game_card.dart';
 import 'package:gamesradar/widgets/platform_chip.dart';
 import 'package:gamesradar/widgets/loading_shimmer.dart';
 import 'package:gamesradar/screens/game_detail_screen.dart';
+import 'package:gamesradar/widgets/app_error_widget.dart';
+import 'package:gamesradar/widgets/app_empty_widget.dart';
 
 class UpcomingScreen extends StatefulWidget {
-  const UpcomingScreen({super.key});
+  final String searchQuery;
+  const UpcomingScreen({super.key, this.searchQuery = ''});
 
   @override
   State<UpcomingScreen> createState() => _UpcomingScreenState();
@@ -123,6 +127,18 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                     label: const Text('All Platforms'),
                     selected: _selectedPlatform == null,
                     onSelected: (_) => _onPlatformSelected(null),
+                    backgroundColor: bgColor,
+                    selectedColor: fgColor.withOpacity(0.2),
+                    checkmarkColor: fgColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(color: fgColor.withOpacity(0.3)),
+                    ),
+                    labelStyle: TextStyle(
+                      color: _selectedPlatform == null
+                          ? fgColor
+                          : fgColor.withOpacity(0.7),
+                    ),
                   ),
                 );
               }
@@ -140,33 +156,62 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
         ),
         Expanded(
           child: _hasError
-              ? const Center(child: Text('Failed to load games'))
+              ? AppErrorWidget(
+                  message: 'Failed to load upcoming games.',
+                  onRetry: _loadInitialData,
+                )
               : SmartRefresher(
                   controller: _refreshController,
                   enablePullUp: true,
                   onRefresh: _onRefresh,
                   onLoading: _onLoading,
-                  child: _games.isEmpty && _isLoading
+                  child: (_games.isEmpty && _isLoading)
                       ? const LoadingShimmer()
-                      : ListView.builder(
-                          itemCount: _games.length + (_isLoading ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index < _games.length) {
-                              return GameCard(
-                                game: _games[index],
-                                onTap: () =>
-                                    _navigateToGameDetail(_games[index]),
-                              );
-                            } else {
-                              return const Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            }
-                          },
-                        ),
+                      : () {
+                          final filteredGames = widget.searchQuery.isEmpty
+                              ? _games
+                              : _games
+                                    .where(
+                                      (game) =>
+                                          game.name.toLowerCase().contains(
+                                            widget.searchQuery.toLowerCase(),
+                                          ),
+                                    )
+                                    .toList();
+
+                          if (filteredGames.isEmpty && !_isLoading) {
+                            return AppEmptyWidget(
+                              subtitle: widget.searchQuery.isNotEmpty
+                                  ? 'No results for your search.'
+                                  : 'No upcoming games found for this platform.',
+                            );
+                          }
+
+                          return ListView.builder(
+                            itemCount:
+                                filteredGames.length +
+                                (_isLoading && widget.searchQuery.isEmpty
+                                    ? 1
+                                    : 0),
+                            itemBuilder: (context, index) {
+                              if (index < filteredGames.length) {
+                                return GameCard(
+                                  game: filteredGames[index],
+                                  onTap: () => _navigateToGameDetail(
+                                    filteredGames[index],
+                                  ),
+                                );
+                              } else {
+                                return const Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                            },
+                          );
+                        }(),
                 ),
         ),
       ],
