@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gamesradar/static/colors.dart';
-import 'package:gamesradar/models/game.dart';
-import 'package:gamesradar/services/games_service.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,37 +9,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<PlatformModel> _platforms = [];
-  bool _isLoadingPlatforms = true;
   bool _isSearching = false;
-  String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPlatforms();
-  }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
-  }
-
-  Future<void> _loadPlatforms() async {
-    try {
-      final gamesService = Provider.of<GamesService>(context, listen: false);
-      final platforms = await gamesService.getPlatforms();
-      setState(() {
-        _platforms = platforms;
-        _isLoadingPlatforms = false;
-      });
-    } catch (e) {
-      setState(() => _isLoadingPlatforms = false);
-    }
   }
 
   @override
@@ -62,9 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {
-                  setState(() {
-                    _searchQuery = value;
-                  });
+                  // Handle search query change if needed
                 },
               )
             : const Text('Game Radar'),
@@ -82,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() {
                 if (_isSearching) {
                   _isSearching = false;
-                  _searchQuery = '';
                   _searchController.clear();
                 } else {
                   _isSearching = true;
