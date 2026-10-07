@@ -3,7 +3,6 @@ import 'package:gamesradar/static/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:gamesradar/models/game.dart';
-import 'package:gamesradar/models/platform.dart';
 import 'package:gamesradar/services/games_service.dart';
 import 'package:gamesradar/widgets/game_card.dart';
 import 'package:gamesradar/widgets/platform_chip.dart';
@@ -129,16 +128,16 @@ class _NewReleasesScreenState extends State<NewReleasesScreen> {
                     selected: _selectedPlatform == null,
                     onSelected: (_) => _onPlatformSelected(null),
                     backgroundColor: bgColor,
-                    selectedColor: fgColor.withOpacity(0.2),
+                    selectedColor: fgColor.withValues(alpha: 0.2),
                     checkmarkColor: fgColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(color: fgColor.withOpacity(0.3)),
+                      side: BorderSide(color: fgColor.withValues(alpha: 0.3)),
                     ),
                     labelStyle: TextStyle(
                       color: _selectedPlatform == null
                           ? fgColor
-                          : fgColor.withOpacity(0.7),
+                          : fgColor.withValues(alpha: 0.7),
                     ),
                   ),
                 );

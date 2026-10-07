@@ -21,14 +21,14 @@ class PlatformChip extends StatelessWidget {
       selected: isSelected,
       onSelected: (_) => onTap(),
       backgroundColor: bgColor,
-      selectedColor: fgColor.withOpacity(0.2),
+      selectedColor: fgColor.withValues(alpha: 0.2),
       checkmarkColor: fgColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: fgColor.withOpacity(0.3)),
+        side: BorderSide(color: fgColor.withValues(alpha: 0.3)),
       ),
       labelStyle: TextStyle(
-        color: isSelected ? fgColor : fgColor.withOpacity(0.7),
+        color: isSelected ? fgColor : fgColor.withValues(alpha: 0.7),
       ),
     );
   }

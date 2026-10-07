@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'package:gamesradar/models/platform.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:gamesradar/models/platform.dart' hide Platform;
@@ -30,9 +29,8 @@ class GamesService {
     }
 
     try {
-      final response = await http
-          .get(Uri.parse('$_baseUrl/platforms?page_size=50&key=$_apiKey'))
-          .timeout(const Duration(seconds: 10));
+      final url = Uri.parse('$_baseUrl/platforms?page_size=50&key=$_apiKey');
+      final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);

@@ -18,7 +18,7 @@ class GameCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -71,7 +71,7 @@ class GameCard extends StatelessWidget {
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.7),
+                          color: Colors.black.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
@@ -112,7 +112,7 @@ class GameCard extends StatelessWidget {
                                 45,
                                 60,
                                 65,
-                              ).withOpacity(0.8),
+                              ).withValues(alpha: 0.8),
                               Colors.transparent,
                             ],
                           ),
@@ -154,17 +154,17 @@ class GameCard extends StatelessWidget {
                                   vertical: 6,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: fgColor.withOpacity(0.1),
+                                  color: fgColor.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                    color: fgColor.withOpacity(0.2),
+                                    color: fgColor.withValues(alpha: 0.2),
                                   ),
                                 ),
                                 child: Text(
                                   platform.name,
                                   style: TextStyle(
                                     fontSize: 11,
-                                    color: fgColor.withOpacity(0.9),
+                                    color: fgColor.withValues(alpha: 0.9),
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -180,14 +180,14 @@ class GameCard extends StatelessWidget {
                           Icon(
                             Icons.calendar_month_outlined,
                             size: 16,
-                            color: fgColor.withOpacity(0.6),
+                            color: fgColor.withValues(alpha: 0.6),
                           ),
                           const SizedBox(width: 6),
                           Text(
                             game.releaseDate,
                             style: TextStyle(
                               fontSize: 13,
-                              color: fgColor.withOpacity(0.6),
+                              color: fgColor.withValues(alpha: 0.6),
                             ),
                           ),
                           const Spacer(),
@@ -195,14 +195,14 @@ class GameCard extends StatelessWidget {
                             'View Details',
                             style: TextStyle(
                               fontSize: 13,
-                              color: fgColor.withOpacity(0.8),
+                              color: fgColor.withValues(alpha: 0.8),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Icon(
                             Icons.chevron_right,
                             size: 18,
-                            color: fgColor.withOpacity(0.8),
+                            color: fgColor.withValues(alpha: 0.8),
                           ),
                         ],
                       ),

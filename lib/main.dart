@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gamesradar/screens/splash_screen.dart';
@@ -26,12 +24,10 @@ class GamesRadarApp extends StatelessWidget {
       title: 'Game Radar',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: true,
         scaffoldBackgroundColor: bgColor,
         colorScheme: ColorScheme.fromSeed(
           seedColor: fgColor,
           brightness: Brightness.dark,
-          background: bgColor,
           surface: bgColor,
         ),
         appBarTheme: const AppBarTheme(

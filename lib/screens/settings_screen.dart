@@ -96,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             'Support my work — every coffee fuels a new feature!',
                             style: TextStyle(
                               fontSize: 14,
-                              color: fgColor.withOpacity(0.7),
+                              color: fgColor.withValues(alpha: 0.7),
                             ),
                           ),
                         ],
@@ -119,7 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(color: fgColor.withOpacity(0.6))),
+          Text(label, style: TextStyle(color: fgColor.withValues(alpha: 0.6))),
           Text(
             value,
             style: const TextStyle(fontWeight: FontWeight.w500, color: fgColor),
