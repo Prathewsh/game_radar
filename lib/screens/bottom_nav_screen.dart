@@ -34,7 +34,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
                 cursorColor: fgColor,
                 decoration: InputDecoration(
                   hintText: 'Search...',
-                  hintStyle: TextStyle(color: fgColor.withOpacity(0.5)),
+                  hintStyle: TextStyle(color: fgColor.withValues(alpha: 0.5)),
                   border: InputBorder.none,
                 ),
                 onChanged: (value) {

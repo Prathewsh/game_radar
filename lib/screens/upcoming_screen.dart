@@ -128,16 +128,16 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                     selected: _selectedPlatform == null,
                     onSelected: (_) => _onPlatformSelected(null),
                     backgroundColor: bgColor,
-                    selectedColor: fgColor.withOpacity(0.2),
+                    selectedColor: fgColor.withValues(alpha: 0.2),
                     checkmarkColor: fgColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(color: fgColor.withOpacity(0.3)),
+                      side: BorderSide(color: fgColor.withValues(alpha: 0.3)),
                     ),
                     labelStyle: TextStyle(
                       color: _selectedPlatform == null
                           ? fgColor
-                          : fgColor.withOpacity(0.7),
+                          : fgColor.withValues(alpha: 0.7),
                     ),
                   ),
                 );

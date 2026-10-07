@@ -21,7 +21,7 @@ class AppEmptyWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: fgColor.withOpacity(0.3), size: 80),
+            Icon(icon, color: fgColor.withValues(alpha: 0.3), size: 80),
             const SizedBox(height: 20),
             Text(
               title,
@@ -35,7 +35,10 @@ class AppEmptyWidget extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: TextStyle(color: fgColor.withOpacity(0.6), fontSize: 16),
+              style: TextStyle(
+                color: fgColor.withValues(alpha: 0.6),
+                fontSize: 16,
+              ),
             ),
           ],
         ),

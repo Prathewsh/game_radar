@@ -1,8 +1,5 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:flutter/material.dart';
 import 'package:gamesradar/models/game.dart';
-import 'package:gamesradar/models/platform.dart';
 import 'package:gamesradar/services/games_service.dart';
 import 'package:gamesradar/widgets/game_card.dart';
 import 'package:gamesradar/widgets/app_error_widget.dart';
@@ -46,17 +43,8 @@ class _PlatformGamesScreenState extends State<PlatformGamesScreen> {
       games.sort((a, b) {
         try {
           // Parse the dates if they're not null
-          final DateTime? dateA = a.releaseDate != null
-              ? DateFormat('yyyy-MM-dd').parse(a.releaseDate)
-              : null;
-          final DateTime? dateB = b.releaseDate != null
-              ? DateFormat('yyyy-MM-dd').parse(b.releaseDate)
-              : null;
-
-          // Handle null cases
-          if (dateA == null && dateB == null) return 0;
-          if (dateA == null) return 1; // Push null dates to the end
-          if (dateB == null) return -1;
+          final DateTime dateA = DateFormat('yyyy-MM-dd').parse(a.releaseDate);
+          final DateTime dateB = DateFormat('yyyy-MM-dd').parse(b.releaseDate);
 
           return dateA.compareTo(dateB);
         } catch (e) {
